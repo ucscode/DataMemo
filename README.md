@@ -1,84 +1,82 @@
+# Local Storage Library
 
-# DataMemo
-
-datamemo is a PHP library that provides a simple and efficient way to store and retrieve data in JSON format. It acts as a data memory, allowing you to save your data as JSON in a file and easily access it when needed. The library is designed to be lightweight and independent, with no external dependencies.
-
-## Why use datamemo?
-
-- **Save and retrieve data**: datamemo allows you to store your data as JSON in a file, making it easy to persist and retrieve information across sessions.
-- **NoSQL-like functionality**: datamemo acts as a NoSQL-like data storage, providing a convenient way to work with structured data without the need for a full-fledged database.
-- **JSON format compatibility**: The data saved by datamemo is stored in JSON format, which is widely accepted and can be easily used across different platforms and technologies.
-- **Seamless integration**: By using datamemo, you can create APIs or data models that can be accessed by other web technologies, allowing for easy data exchange and utilization in various projects.
-
-## Features
-
-- **Save data as JSON**: Store your data as JSON in a file for persistence.
-- Automatic data retrieval: When initializing a `datamemo` instance with a file path, the saved data is automatically loaded into the instance, making it readily accessible.
-- **Easy data manipulation**: Access and modify the saved data using property syntax.
-- Independent and lightweight: datamemo has no external dependencies and is designed to be a standalone library.
-- **Clear and delete data**: Clear the entire set of data or delete the associated file when necessary.
-- **Error handling**: Retrieve the last error that occurred during the execution of datamemo.
+The Local Storage Library is a simple PHP library that provides a convenient way to store and retrieve data with optional encryption. It is designed to work similarly to `stdClass` but with the added functionality of saving and loading data to and from a file.
 
 ## Installation
 
-1. Download the `DataMemo.php` file.
-2. Include the `DataMemo.php` file in your PHP project:
+You can install the Local Storage Library using [Composer](https://getcomposer.org/). Run the following command:
 
-```php
-require_once 'path/to/DataMemo.php';
+```bash
+composer require ucscode/local-storage
 ```
 
-## Getting Started
+### Installation without Composer
 
-To start using datamemo, follow these simple steps:
+If you prefer not to use Composer, you can manually include the Local Storage Library in your project by following these steps:
 
-1. Create a new `DataMemo` instance by providing the path to the JSON file where you want to store your data:
+1. Clone the [Github repository](https://github.com/ucscode/local-storage) and extract the zipped content into your project directory.
 
-```php
-$file = 'path/to/file.json';
-$data = new DataMemo($file);
-```
-
-2. Set your desired data using property syntax:
+2. In your PHP code, include the `LocalStorage.php` file:
 
 ```php
-$data->name = 'John Doe';
-$data->age = 25;
+require_once 'path/to/src/LocalStorage.php';
 ```
 
-3. Print the formatted JSON data:
+## Encryption
+
+By default, the library uses gzdeflate and gzinflate for basic data compression. However, you can enhance security with OpenSSL encryption by simply providing a security key during instantiation.
+
+## Usage
+
+If the instantiation file already contains LocalStorage data, the LocalStorage instance will be automatically populated with that data.
 
 ```php
-$data->pretty_print();
+use Ucscode\LocalStorage\LocalStorage;
+
+$filepath = 'path/to/storage/file.txt';
+
+$localStorage = new LocalStorage($filepath);
 ```
 
-4. Save the data to the file:
+Optionally, a secret key can be added during instantiation to enhance security.
 
 ```php
-$data->save();
+$optionalSecretKey = "my_secret_key";
+
+$localStorage = new LocalStorage($filepath, $optionalSecretKey);
 ```
 
-5. Retrieve the data when needed:
+### Creating & Accessing
 
 ```php
-$file = 'path/to/file.json';
-$data = new DataMemo($file);
+$localstorage->author = "Ucscode";
+$localStorage->data = [];
+$localStorage->data['foundation'] = "User Synthetics";
+$localStorage->data['description'] = "Save encrypted contents into local file instead of database";
 
-echo $data->name; // Output: John Doe
-echo $data->age; // Output: 25
+$localStorage->data['foundation']; // User Synthetics
 ```
 
-For more advanced usage, refer to the API reference and the comments within the `DataMemo` class.
+### Saving Data
 
-## API Reference
+The data within LocalStorage will not be automatically saved unless the save method is explicitly called.
 
-For detailed information on the methods available in the `DataMemo` class, please refer to this [Article](https://ucscode.me/?p=357).
+```php
+$localStorage->save();
+```
 
-## Contributions
+### Retrieving All Data
 
-Contributions, bug reports, and feature requests are welcome! Please feel free to open issues or submit pull requests.
+To retrieve an array of all data available in local storage, utilize the `getContext` method.
+
+```php
+$localStorage->getContext(); // [author => Ucscode, data => [...]]
+```
+
+## Contributing &amp; Feedback
+
+If you encounter any issues, have suggestions, or want to contribute to the Local Storage Library, please open an [issue](https://github.com/ucscode/local-storage/issues) on the GitHub repository.
 
 ## License
 
-DataMemo is released under the [MIT License](https://opensource.org/license/mit/).
-
+This Local Storage Library is open-source software licensed under the [MIT license](https://opensource.org/licenses/MIT).
