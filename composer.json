@@ -10,7 +10,9 @@
             "email": "uche23mail@gmail.com"
         }
     ],
-    "require": {},
+    "require": {
+        "php": ">=8.1"
+    },
     "autoload": {
         "psr-4": {
             "Ucscode\\LocalStorage\\": "src/"
