@@ -1,0 +1,21 @@
+{
+    "name": "ucscode/local-storage",
+    "description": "A PHP library for local data storage with optional encryption.",
+    "type": "library",
+    "keywords": ["php", "local storage", "encryption"],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Uchenna Ajah",
+            "email": "uche23mail@gmail.com"
+        }
+    ],
+    "require": {},
+    "autoload": {
+        "psr-4": {
+            "Ucscode\\LocalStorage\\": "src/"
+        }
+    },
+    "minimum-stability": "stable",
+    "prefer-stable": true
+}
