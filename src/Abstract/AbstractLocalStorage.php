@@ -2,8 +2,6 @@
 
 namespace Ucscode\LocalStorage\Abstract;
 
-use Exception;
-use TypeError;
 use Ucscode\LocalStorage\Interface\LocalStorageInterface;
 
 abstract class AbstractLocalStorage implements LocalStorageInterface
@@ -15,8 +13,8 @@ abstract class AbstractLocalStorage implements LocalStorageInterface
     public function __construct(protected string $filepath, protected ?string $secretKey = null)
     {
         $this->iv = openssl_random_pseudo_bytes(openssl_cipher_iv_length(self::ALGORITHM));
-        $content = file_get_contents($filepath);
-        $this->storage = (!empty($content)) ? ($this->decode($content) ?: []) : [];
+        $content = is_file($filepath) ? file_get_contents($filepath) : '[]';
+        $this->storage = !empty($content) ? ($this->decode($content) ?: []) : [];
     }
 
     public function &__get(string $offset): mixed
