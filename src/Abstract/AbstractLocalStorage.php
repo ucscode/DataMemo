@@ -19,9 +19,9 @@ abstract class AbstractLocalStorage implements LocalStorageInterface
 
     public function &__get(string $offset): mixed
     {
-        $proxy = null;
+        $value = !isset($this->storage[$offset]) ? null : $this->storage[$offset];
 
-        return !isset($this->storage[$offset]) ? $proxy : $this->storage[$offset];
+        return $value;
     }
 
     public function __set(string $offset, mixed $value): void
