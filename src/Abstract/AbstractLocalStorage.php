@@ -10,10 +10,18 @@ abstract class AbstractLocalStorage implements LocalStorageInterface
     protected string $iv;
     protected array $storage;
 
-    public function __construct(protected string $filepath, protected ?string $secretKey = null)
-    {
+    public function __construct(protected string $filepath, protected ?string $secretKey = null, ?string $group = null)
+    {        
+        if (!is_file($this->filepath)) {
+            $file = fopen($this->filepath, 'w');
+            fclose($file);
+            !$group ?: chgrp($this->filepath, $group);
+        }
+        
+        chmod($this->filepath, 664);
+        $content = file_get_contents($filepath) ?: '[]';
+
         $this->iv = openssl_random_pseudo_bytes(openssl_cipher_iv_length(self::ALGORITHM));
-        $content = is_file($filepath) ? file_get_contents($filepath) : '[]';
         $this->storage = !empty($content) ? ($this->decode($content) ?: []) : [];
     }
 
